@@ -28,44 +28,32 @@ Void Keylogger is a sophisticated monitoring tool that can detect the operating 
 ```bash
 python main.py
 ```
+
 ## Key Modules and Functions
 
-Void Keylogger utilizes several Python modules to achieve its functionality. Here is a breakdown of these modules and the specific functions used:
-
 ### `platform` Module
-- **Usage:** Determines the operating system on which the keylogger is running.
-- **Functions:**
-  - `platform.system()`: Used in `detect.py` to identify the OS (Windows or Linux).
+- **File:** [detect.py](detect.py)
+- **Function(s) Used:**
+  - `platform.system()`: Determines the operating system on which the keylogger is running. Used in the `detect_os()` function to check if the system is Windows or Linux.
 
 ### `pynput.keyboard` Module
-- **Usage:** Monitors and records every keystroke.
-- **Functions:**
-  - `Listener`: A class that listens for keyboard events.
-  - `Key`: Enumerates special keys (like space, enter, etc.).
-  - `KeyCode`: Handles the representation of ordinary alphanumeric keys.
-  - `listener.join()`: Ensures that the listener thread continues execution until stopped.
-  
-### `os` and `sys` Modules
-- **Usage:** Used for system-related operations, including file handling and script execution management.
-- **Functions:**
-  - `os.path.join()`: Constructs paths by joining names into a complete path.
-  - `sys.exit()`: Exits the script when needed, especially in error handling.
+- **File:** [file_edit.py](file_edit.py)
+- **Function(s) Used:**
+  - `Listener`: Monitors keyboard events.
+  - `on_press`: Callback function that is triggered when a key is pressed. It's linked to the `write_file` function that logs each keystroke.
 
-### `json` Module
-- **Usage:** Formats and stores the keystroke data in JSON format for later retrieval and analysis.
-- **Functions:**
-  - `json.dump()`: Serializes the keystroke data into a JSON formatted stream.
-  - `json.load()`: Deserializes JSON data into Python objects.
+### `os` Module
+- **File:** [main.py](main.py)
+- **Function(s) Used:**
+  - `os.environ`: Retrieves the path to store the log file based on the operating system.
+  - `os.path.join()`: Constructs a full file path intelligently to store the log file, accommodating different OS file path conventions.
 
-### `datetime` Module
-- **Usage:** Records the timestamp for each keystroke event.
-- **Functions:**
-  - `datetime.now()`: Returns the current local date and time.
+### `sys` Module
+- **File:** [main.py](main.py)
+- **Function(s) Used:**
+  - `sys.exit()`: Typically used for interacting with the Python interpreter to terminate the program gracefully if needed (not explicitly mentioned but commonly used).
 
-### `logging` Module
-- **Usage:** Provides a way to configure logging.
-- **Functions:**
-  - `logging.basicConfig()`: Configures the logging to handle the output of keystroke logs.
-  - `logging.info()`, `logging.warning()`: Used to log informational and warning messages.
-
-Each of these modules is crucial for the efficient and effective operation of the Void Keylogger, providing a range of functionalities from system detection to data logging and error handling.
+## Design and Implementation
+- **OS Detection**: The `detect_os()` function in `detect.py` utilizes the `platform` system to identify the operating system, which influences where the keylogger will save its log files (Windows: `%appdata%`, Linux: `/root`).
+- **Keylogging Logic**: The `file_edit.py` includes the `write_file` function that processes and logs each keystroke. Special keys like 'enter', 'backspace', and 'shift' are formatted specifically for better readability in the logs.
+- **Execution and Management**: The `main.py` script sets up the environment based on the detected OS, establishes the log file path, and starts the `Listener` to monitor keystrokes. It ensures the keylogger runs continuously unless manually stopped.
