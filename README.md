@@ -25,8 +25,9 @@ Void Keylogger is a sophisticated monitoring tool that can detect the operating 
    pip install pynput
 
 ### To use Void Keylogger, execute the main.py script:
+```bash
 python main.py
-
+```
 ## Key Modules and Functions
 
 Void Keylogger utilizes several Python modules to achieve its functionality. Here is a breakdown of these modules and the specific functions used:
